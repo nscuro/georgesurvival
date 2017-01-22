@@ -1,0 +1,10 @@
+Zombie-, Bullet-, Weapon- & Player Graphics:
+by Shafqat Bhuiyan (http://uzf.sf.net/) 
+	
+Font (SFGushing Meadow):
+by ShyFonts Type Foundry
+
+Music by Lukas Richter
+	
+Code, Menu- & Background Graphics:
+by scuroworks
