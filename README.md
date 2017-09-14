@@ -6,7 +6,7 @@ Besides the Maven integration and some slight refactoring (mainly changing packa
 
 # Building
 ```bash
-git clone https://github.com/scuroworks/georgesurvival.git
+git clone https://github.com/nscuro/georgesurvival.git
 cd georgesurvival
 mvn clean package
 ```
@@ -18,7 +18,7 @@ mv target/georgesurvival-1.0-with-dependencies.jar ./georgesurvival.jar
 java -jar georgesurvival.jar
 ```
 
-If you acquired a [release](https://github.com/scuroworks/georgesurvival/releases) copy of this awesome AAA title, there's already a ready-to-run jar. On Windows and Mac systems you may be able to just double-click the jar, otherwise just open a terminal, `cd` into the root folder and execute `java -jar georgesurvival.jar`.
+If you acquired a [release](https://github.com/nscuro/georgesurvival/releases) copy of this awesome AAA title, there's already a ready-to-run jar. On Windows and Mac systems you may be able to just double-click the jar, otherwise just open a terminal, `cd` into the root folder and execute `java -jar georgesurvival.jar`.
 
 # Screenshots
 ![First](https://i.imgur.com/0m4NHiug.png)
