@@ -1,61 +1,67 @@
-package org.scuroworks.georgesurvival.screens;
+package com.github.nscuro.georgesurvival.screens;
 
-import org.newdawn.slick.*;
+import com.github.nscuro.georgesurvival.HighscoreManager;
+import com.github.nscuro.georgesurvival.StateCommunicationManager;
+import com.github.nscuro.georgesurvival.engine.MenuItem;
+import org.newdawn.slick.AngelCodeFont;
+import org.newdawn.slick.Font;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.BlobbyTransition;
+import org.newdawn.slick.state.transition.EmptyTransition;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
-import org.scuroworks.georgesurvival.StateCommunicationManager;
-import org.scuroworks.georgesurvival.engine.MenuItem;
 
-public class PauseMenuScreen implements GameState {
+public class MainMenuScreen implements GameState {
 
+    private Font mGameFont;
     private Image mBackground;
     private Image mHeader;
     private Image mCopyright;
 
-    private Image mItemContinueImage;
-    private Image mItemContinueHoverImage;
-    private Image mItemRestartImage;
-    private Image mItemRestartHoverImage;
-    private Image mItemMainMenuImage;
-    private Image mItemMainMenuHoverImage;
+    private Image mItemStartGameImage;
+    private Image mItemStartGameHoverImage;
+    private Image mItemShowCreditsImage;
+    private Image mItemShowCreditsHoverImage;
     private Image mItemExitImage;
     private Image mItemExitHoverImage;
 
-    private MenuItem mItemContinue;
-    private MenuItem mItemRestart;
-    private MenuItem mItemMainMenu;
+    private MenuItem mItemStartGame;
+    private MenuItem mItemShowCredits;
     private MenuItem mItemExit;
+
+    private String mHighscoreStr;
 
     @Override
     public int getID() {
-        return 2;
+        return 0;
     }
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
+        mGameFont = new AngelCodeFont("Data/Fonts/SFGushingMeadow.fnt", "Data/Fonts/SFGushingMeadow.png");
         mBackground = new Image("Data/Textures/Menu/Background.png");
-        mHeader = new Image("Data/Textures/Menu/Header_Pause.png");
+        mHeader = new Image("Data/Textures/Menu/Header.png");
         mCopyright = new Image("Data/Textures/Menu/Copyright.png");
 
-        mItemContinueImage = new Image("Data/Textures/Menu/Continue.png");
-        mItemContinueHoverImage = new Image("Data/Textures/Menu/Continue_Hover.png");
-        mItemRestartImage = new Image("Data/Textures/Menu/Restart.png");
-        mItemRestartHoverImage = new Image("Data/Textures/Menu/Restart_Hover.png");
-        mItemMainMenuImage = new Image("Data/Textures/Menu/MainMenu.png");
-        mItemMainMenuHoverImage = new Image("Data/Textures/Menu/MainMenu_Hover.png");
+        mItemStartGameImage = new Image("Data/Textures/Menu/StartGame.png");
+        mItemStartGameHoverImage = new Image("Data/Textures/Menu/StartGame_Hover.png");
+        mItemShowCreditsImage = new Image("Data/Textures/Menu/ShowCredits.png");
+        mItemShowCreditsHoverImage = new Image("Data/Textures/Menu/ShowCredits_Hover.png");
         mItemExitImage = new Image("Data/Textures/Menu/Exit.png");
         mItemExitHoverImage = new Image("Data/Textures/Menu/Exit_Hover.png");
 
-        mItemContinue = new MenuItem(mItemContinueImage, mItemContinueHoverImage,
-                (container.getWidth() - mItemContinueImage.getWidth()) / 2, 150.0f, 0);
-        mItemRestart = new MenuItem(mItemRestartImage, mItemRestartHoverImage,
-                (container.getWidth() - mItemRestartImage.getWidth()) / 2, 250.0f, 0);
-        mItemMainMenu = new MenuItem(mItemMainMenuImage, mItemMainMenuHoverImage,
-                (container.getWidth() - mItemMainMenuImage.getWidth()) / 2, 350.0f, 0);
+        mItemStartGame = new MenuItem(mItemStartGameImage, mItemStartGameHoverImage,
+                (container.getWidth() - mItemStartGameImage.getWidth()) / 2, 150.0f, 1);
+        mItemShowCredits = new MenuItem(mItemShowCreditsImage, mItemShowCreditsHoverImage,
+                (container.getWidth() - mItemShowCreditsImage.getWidth()) / 2, 250.0f, 2);
         mItemExit = new MenuItem(mItemExitImage, mItemExitHoverImage,
-                (container.getWidth() - mItemExitImage.getWidth()) / 2, 450.0f, 0);
+                (container.getWidth() - mItemExitImage.getWidth()) / 2, 350.0f, 3);
     }
 
     @Override
@@ -63,13 +69,10 @@ public class PauseMenuScreen implements GameState {
         Input input = container.getInput();
 
         if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
-            if (mItemContinue.GetCollisionArea().contains(input.getMouseX(), input.getMouseY()))
-                game.enterState(1, new FadeOutTransition(), new FadeInTransition());
-            else if (mItemRestart.GetCollisionArea().contains(input.getMouseX(), input.getMouseY())) {
-                StateCommunicationManager.SetRestartRequested(true);
-                game.enterState(1, new FadeOutTransition(), new FadeInTransition());
-            } else if (mItemMainMenu.GetCollisionArea().contains(input.getMouseX(), input.getMouseY()))
-                game.enterState(0, new FadeOutTransition(), new FadeInTransition());
+            if (mItemStartGame.GetCollisionArea().contains(input.getMouseX(), input.getMouseY()))
+                game.enterState(1, new EmptyTransition(), new BlobbyTransition());
+            else if (mItemShowCredits.GetCollisionArea().contains(input.getMouseX(), input.getMouseY()))
+                game.enterState(4, new FadeOutTransition(), new FadeInTransition());
             else if (mItemExit.GetCollisionArea().contains(input.getMouseX(), input.getMouseY()))
                 container.exit();
         }
@@ -81,34 +84,42 @@ public class PauseMenuScreen implements GameState {
         mHeader.draw((container.getWidth() - mHeader.getWidth()) / 2, 0);
         mCopyright.draw(0, (container.getHeight() - mCopyright.getHeight()));
 
-        mItemContinue.Draw(g);
-        mItemRestart.Draw(g);
-        mItemMainMenu.Draw(g);
+        mItemStartGame.Draw(g);
+        mItemShowCredits.Draw(g);
         mItemExit.Draw(g);
+
+        g.setFont(mGameFont);
+        g.drawString(mHighscoreStr, (container.getWidth() - mGameFont.getWidth("    Score: 00000")),
+                (container.getHeight() - mGameFont.getHeight("0\n0\n0")));
     }
 
     @Override
     public void mouseMoved(int oldx, int oldy, int newx, int newy) {
-        if (mItemContinue.GetCollisionArea().contains(newx, newy)) {
-            mItemContinue.SetHovered(true);
+        if (mItemStartGame.GetCollisionArea().contains(newx, newy)) {
+            mItemStartGame.SetHovered(true);
         } else {
-            mItemContinue.SetHovered(false);
+            mItemStartGame.SetHovered(false);
         }
-        if (mItemRestart.GetCollisionArea().contains(newx, newy)) {
-            mItemRestart.SetHovered(true);
+        if (mItemShowCredits.GetCollisionArea().contains(newx, newy)) {
+            mItemShowCredits.SetHovered(true);
         } else {
-            mItemRestart.SetHovered(false);
-        }
-        if (mItemMainMenu.GetCollisionArea().contains(newx, newy)) {
-            mItemMainMenu.SetHovered(true);
-        } else {
-            mItemMainMenu.SetHovered(false);
+            mItemShowCredits.SetHovered(false);
         }
         if (mItemExit.GetCollisionArea().contains(newx, newy)) {
             mItemExit.SetHovered(true);
         } else {
             mItemExit.SetHovered(false);
         }
+    }
+
+    @Override
+    public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+        HighscoreManager.ReadFile();
+        mHighscoreStr = "Highscore:\n    Score: " + Integer.toString(HighscoreManager.GetScore())
+                + "\n    Wave: " + HighscoreManager.GetWave();
+
+        if (StateCommunicationManager.GetInputPaused())
+            container.getInput().resume();
     }
 
     @Override
@@ -194,10 +205,6 @@ public class PauseMenuScreen implements GameState {
 
     @Override
     public void controllerButtonReleased(int controller, int button) {
-    }
-
-    @Override
-    public void enter(GameContainer container, StateBasedGame game) throws SlickException {
     }
 
     @Override

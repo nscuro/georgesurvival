@@ -1,4 +1,4 @@
-package org.scuroworks.georgesurvival;
+package com.github.nscuro.georgesurvival;
 
 import java.io.FileReader;
 import java.io.FileWriter;

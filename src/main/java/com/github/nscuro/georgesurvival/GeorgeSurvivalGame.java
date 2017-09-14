@@ -1,11 +1,16 @@
-package org.scuroworks.georgesurvival;
+package com.github.nscuro.georgesurvival;
 
+import com.github.nscuro.georgesurvival.screens.CreditsScreen;
+import com.github.nscuro.georgesurvival.screens.GameOverScreen;
+import com.github.nscuro.georgesurvival.screens.IntroScreen;
+import com.github.nscuro.georgesurvival.screens.MainMenuScreen;
+import com.github.nscuro.georgesurvival.screens.PauseMenuScreen;
+import com.github.nscuro.georgesurvival.screens.RunningScreen;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
-import org.scuroworks.georgesurvival.screens.*;
 
 import java.io.File;
 

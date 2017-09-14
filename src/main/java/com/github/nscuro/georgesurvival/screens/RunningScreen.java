@@ -1,11 +1,24 @@
-package org.scuroworks.georgesurvival.screens;
+package com.github.nscuro.georgesurvival.screens;
 
-import org.newdawn.slick.*;
+import com.github.nscuro.georgesurvival.BloodSplatter;
+import com.github.nscuro.georgesurvival.Bullet;
+import com.github.nscuro.georgesurvival.HighscoreManager;
+import com.github.nscuro.georgesurvival.Player;
+import com.github.nscuro.georgesurvival.StateCommunicationManager;
+import com.github.nscuro.georgesurvival.WeaponType;
+import com.github.nscuro.georgesurvival.Zombie;
+import com.github.nscuro.georgesurvival.ZombieType;
+import org.newdawn.slick.AngelCodeFont;
+import org.newdawn.slick.Font;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
-import org.scuroworks.georgesurvival.*;
 
 import java.util.ArrayList;
 import java.util.List;

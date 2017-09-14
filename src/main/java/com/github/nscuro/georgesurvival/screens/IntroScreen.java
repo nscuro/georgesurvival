@@ -1,31 +1,46 @@
-package org.scuroworks.georgesurvival.screens;
+package com.github.nscuro.georgesurvival.screens;
 
-import org.newdawn.slick.*;
+import org.newdawn.slick.AngelCodeFont;
+import org.newdawn.slick.Font;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
-import org.scuroworks.georgesurvival.HighscoreManager;
 
-public class GameOverScreen implements GameState {
+public class IntroScreen implements GameState {
 
-    private Font mGameFont;
+    private Font mIntroFont;
     private Image mBackground;
+    private Image mDeveloperBadge;
+    private Image mSlickBadge;
+    private float mTimeout;
 
     @Override
     public int getID() {
-        return 3;
+        return 5;
     }
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
-        mGameFont = new AngelCodeFont("Data/Fonts/SFGushingMeadow.fnt", "Data/Fonts/SFGushingMeadow.png");
+        mIntroFont = new AngelCodeFont("Data/Fonts/IntroFont.fnt", "Data/Fonts/IntroFont.png");
         mBackground = new Image("Data/Textures/Menu/Background.png");
+        mDeveloperBadge = new Image("Data/Textures/Developer_Badge.png");
+        mSlickBadge = new Image("Data/Textures/Slick_Badge.png");
+
+        mTimeout = 4000.0f;
     }
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-        if (container.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON))
+        Input input = container.getInput();
+        mTimeout -= (float) delta;
+
+        if (mTimeout <= 0.0f || input.isKeyPressed(Input.KEY_SPACE) || input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON))
             game.enterState(0, new FadeOutTransition(), new FadeInTransition());
     }
 
@@ -33,12 +48,19 @@ public class GameOverScreen implements GameState {
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         mBackground.draw();
 
-        g.setFont(mGameFont);
-        String textToDisplay = "You're Dead!\n\nYour Score: " + HighscoreManager.GetScore() + "\nYou survived to Wave: " + HighscoreManager.GetWave();
-        String helpText = "Left-Click everywhere to Continue...";
+        g.setFont(mIntroFont);
 
-        g.drawString(textToDisplay, (container.getWidth() - mGameFont.getWidth(textToDisplay)) / 2, 100.0f);
-        g.drawString(helpText, 0, (container.getHeight() - mGameFont.getHeight(helpText)));
+        g.drawString("A Game by", (container.getWidth() - mIntroFont.getWidth("A Game by")) / 2, 128.0f);
+        mDeveloperBadge.draw((container.getWidth() - mDeveloperBadge.getWidth()) / 2, 194.0f);
+
+        g.drawString("Using the 2D Game Framework", (container.getWidth() - mIntroFont.getWidth("Using the 2D Game Framework")) / 2, 320.0f);
+        mSlickBadge.draw((container.getWidth() - mSlickBadge.getWidth()) / 2, 400.0f);
+    }
+
+    @Override
+    public void leave(GameContainer container, StateBasedGame game) throws SlickException {
+        mDeveloperBadge.destroy();
+        mSlickBadge.destroy();
     }
 
     @Override
@@ -132,10 +154,6 @@ public class GameOverScreen implements GameState {
 
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-    }
-
-    @Override
-    public void leave(GameContainer container, StateBasedGame game) throws SlickException {
     }
 
 }

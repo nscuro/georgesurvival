@@ -1,8 +1,8 @@
-package org.scuroworks.georgesurvival;
+package com.github.nscuro.georgesurvival;
 
+import com.github.nscuro.georgesurvival.engine.GameObject;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.scuroworks.georgesurvival.engine.GameObject;
 
 public class Player extends GameObject {
 

@@ -1,4 +1,4 @@
-package org.scuroworks.georgesurvival.engine;
+package com.github.nscuro.georgesurvival.engine;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;

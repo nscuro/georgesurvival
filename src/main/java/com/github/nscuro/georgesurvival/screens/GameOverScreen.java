@@ -1,61 +1,38 @@
-package org.scuroworks.georgesurvival.screens;
+package com.github.nscuro.georgesurvival.screens;
 
-import org.newdawn.slick.*;
+import com.github.nscuro.georgesurvival.HighscoreManager;
+import org.newdawn.slick.AngelCodeFont;
+import org.newdawn.slick.Font;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
-import org.scuroworks.georgesurvival.StateCommunicationManager;
 
-import java.io.FileReader;
-import java.io.Reader;
-
-public class CreditsScreen implements GameState {
+public class GameOverScreen implements GameState {
 
     private Font mGameFont;
     private Image mBackground;
-    private String mCreditsStr;
-    private String mHelpStr;
 
     @Override
     public int getID() {
-        return 4;
+        return 3;
     }
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         mGameFont = new AngelCodeFont("Data/Fonts/SFGushingMeadow.fnt", "Data/Fonts/SFGushingMeadow.png");
         mBackground = new Image("Data/Textures/Menu/Background.png");
-
-        Reader reader = null;
-        mCreditsStr = "";
-        try {
-            reader = new FileReader("Data/Credits.txt");
-            for (int i; (i = reader.read()) != -1; ) {
-                mCreditsStr += (char) i;
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                reader.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        mHelpStr = "Press <ESCAPE> to go Back";
     }
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-        Input input = container.getInput();
-
-        if (input.isKeyDown(Input.KEY_ESCAPE)) {
-            input.pause();
-            StateCommunicationManager.SetInputPaused(true);
+        if (container.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON))
             game.enterState(0, new FadeOutTransition(), new FadeInTransition());
-        }
     }
 
     @Override
@@ -63,8 +40,11 @@ public class CreditsScreen implements GameState {
         mBackground.draw();
 
         g.setFont(mGameFont);
-        g.drawString(mCreditsStr, 0, 0);
-        g.drawString(mHelpStr, 0, (container.getHeight() - mGameFont.getHeight("0")));
+        String textToDisplay = "You're Dead!\n\nYour Score: " + HighscoreManager.GetScore() + "\nYou survived to Wave: " + HighscoreManager.GetWave();
+        String helpText = "Left-Click everywhere to Continue...";
+
+        g.drawString(textToDisplay, (container.getWidth() - mGameFont.getWidth(textToDisplay)) / 2, 100.0f);
+        g.drawString(helpText, 0, (container.getHeight() - mGameFont.getHeight(helpText)));
     }
 
     @Override

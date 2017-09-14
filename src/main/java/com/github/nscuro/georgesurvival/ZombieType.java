@@ -1,4 +1,4 @@
-package org.scuroworks.georgesurvival;
+package com.github.nscuro.georgesurvival;
 
 public enum ZombieType {
 
